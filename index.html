@@ -91,13 +91,15 @@
         }
 
         #result {
+            font-size: 24px;
             text-align: center;
+            font-weight: bold;
+            animation: fadeIn 1s;
+            color: #ff4500;
             margin-top: 20px;
-        }
-
-        #result img {
-            width: 200px;
-            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 1);
+            border: none; /* Remove the border */
+            outline: none; /* Remove the outline */
         }
 
         #result span {
@@ -110,6 +112,17 @@
             text-shadow: 2px 2px 4px rgba(0, 0, 0, 1);
             border: none; /* Remove the border */
             outline: none; /* Remove the outline */
+        }
+
+        #result .label {
+            font-size: 24px;
+            color: #ff4500;
+        }
+
+        #poster {
+            margin-top: 20px;
+            max-width: 400px;
+            display: none; /* Initially hidden */
         }
 
         @keyframes fadeIn {
@@ -127,6 +140,7 @@
     </div>
 
     <div id="result"></div>
+    <img id="poster" src="" alt="Movie Poster">
 
     <script>
         const API_KEY = 'c01c2356';
@@ -139,12 +153,15 @@
                 const movieGenre = response.Genre;
                 const moviePoster = response.Poster;
 
-                let resultHTML = `<div id="poster"><img src="${moviePoster}" alt="${movieName} poster"></div>`;
-                resultHTML += `<div id="details">Movie: <span>${movieName} (${movieYear})</span><br>Length: <span>${movieLength}</span><br>Genre: <span>${movieGenre}</span></div>`;
+                const result = document.getElementById('result');
+                result.innerHTML = `Movie: <span>${movieName}</span><br>Year: <span>${movieYear}</span><br>Length: <span>${movieLength}</span><br>Genre: <span>${movieGenre}</span>`;
 
-                document.getElementById('result').innerHTML = resultHTML;
+                const poster = document.getElementById('poster');
+                poster.src = moviePoster;
+                poster.style.display = 'block'; // Make it visible
             } else {
                 document.getElementById('result').innerHTML = 'Movie not found.';
+                document.getElementById('poster').style.display = 'none'; // Hide the poster
             }
         }
 
@@ -160,9 +177,9 @@
             const ul = document.createElement('ul');
             suggestions.forEach(suggestion => {
                 const li = document.createElement('li');
-                li.textContent = suggestion;
+                li.textContent = `${suggestion.Title} (${suggestion.Year})`;
                 li.addEventListener('click', () => {
-                    document.getElementById('movieName').value = suggestion;
+                    document.getElementById('movieName').value = suggestion.Title;
                     suggestionsContainer.classList.remove('show');
                     searchMovie();
                 });
@@ -189,8 +206,7 @@
                 .then(response => response.json())
                 .then(data => {
                     if (data.Search) {
-                        const suggestions = data.Search.map(movie => movie.Title);
-                        handleSuggestions(suggestions);
+                        handleSuggestions(data.Search);
                     } else {
                         handleSuggestions([]);
                     }
@@ -220,6 +236,7 @@
 
             if (movieName === '') {
                 document.getElementById('result').innerHTML = 'Please enter a movie name.';
+                document.getElementById('poster').style.display = 'none';
                 return;
             }
 
@@ -230,6 +247,7 @@
                 .catch(error => {
                     console.error(error);
                     document.getElementById('result').innerHTML = 'An error occurred while searching for the movie.';
+                    document.getElementById('poster').style.display = 'none';
                 });
         }
     </script>
