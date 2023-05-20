@@ -18,226 +18,240 @@
             background-attachment: fixed;
             height: 100vh;
         }
+css
+Copy code
+    h1 {
+        font-size: 36px;
+        color: #ff4500;
+        text-align: center;
+        margin-bottom: 40px;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+        animation: pulse 2s infinite;
+    }
 
-        h1 {
-            font-size: 36px;
-            color: #ff4500;
-            text-align: center;
-            margin-bottom: 40px;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
-            animation: pulse 2s infinite;
-        }
+    @keyframes pulse {
+        0% { transform: scale(1); }
+        50% { transform: scale(1.05); }
+        100% { transform: scale(1); }
+    }
 
-        @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-            100% { transform: scale(1); }
-        }
+    .search-container {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        margin-bottom: 20px;
+        position: relative;
+    }
 
-        .search-container {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            margin-bottom: 20px;
-            position: relative;
-        }
+    .search-input {
+        width: 400px;
+        padding: 10px;
+        background-color: #000;
+        color: #ff4500;
+        border: 2px solid #ff4500;
+        font-size: 20px;
+        outline: none;
+    }
 
-        .search-input {
-            width: 400px;
-            padding: 10px;
-            background-color: #000;
-            color: #ff4500;
-            border: 2px solid #ff4500;
-            font-size: 20px;
-            outline: none;
-        }
+    #suggestions {
+        font-size: 18px;
+        text-align: center;
+        animation: fadeIn 1s;
+        color: #ff4500;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        width: 100%;
+        background-color: #fff;
+        border: 2px solid #ff4500;
+        border-top: none;
+        display: none;
+        padding: 10px;
+        z-index: 1;
+    }
 
-        #suggestions {
-            font-size: 18px;
-            text-align: center;
-            animation: fadeIn 1s;
-            color: #ff4500;
-            position: absolute;
-            top: 100%;
-            left: 0;
-            width: 100%;
-            background-color: #fff;
-            border: 2px solid #ff4500;
-            border-top: none;
-            display: none;
-            padding: 10px;
-            z-index: 1;
-        }
+    #suggestions.show {
+        display: block;
+    }
 
-        #suggestions.show {
-            display: block;
-        }
+    #suggestions ul {
+        list-style-type: none;
+        padding: 0;
+        margin: 0;
+    }
 
-        #suggestions ul {
-            list-style-type: none;
-            padding: 0;
-            margin: 0;
-        }
+    #suggestions li {
+        padding: 5px;
+        cursor: pointer;
+    }
 
-        #suggestions li {
-            padding: 5px;
-            cursor: pointer;
-        }
+    #suggestions li:hover {
+        background-color: #ff4500;
+        color: #fff;
+    }
 
-        #suggestions li:hover {
-            background-color: #ff4500;
-            color: #fff;
-        }
+    #result {
+        font-size: 24px;
+        text-align: center;
+        font-weight: bold;
+        animation: fadeIn 1s;
+        color: #ff4500;
+        margin-top: 20px;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 1);
+        border: none; /* Remove the border */
+        outline: none; /* Remove the outline */
+    }
 
-        #result {
-            font-size: 24px;
-            text-align: center;
-            font-weight: bold;
-            animation: fadeIn 1s;
-            color: #ff4500;
-            margin-top: 20px;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 1);
-            border: none; /* Remove the border */
-            outline: none; /* Remove the outline */
-        }
+    #result span {
+        font-size: 24px;
+        text-align: center;
+        font-weight: bold;
+        animation: fadeIn 1s;
+        color: #ff4500;
+        margin-top: 20px;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 1);
+        border: none; /* Remove the border */
+        outline: none; /* Remove the outline */
+    }
 
-        #result span {
-            font-size: 24px;
-            text-align: center;
-            font-weight: bold;
-            animation: fadeIn 1s;
-            color: #ff4500;
-            margin-top: 20px;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 1);
-            border: none; /* Remove the border */
-            outline: none; /* Remove the outline */
-        }
+    #result .label {
+        font-size: 24px;
+        color: #ff4500;
+    }
 
-        #poster {
-            max-width: 400px;
-            margin-top: 20px;
-            animation: fadeIn 1s;
-        }
+    #poster {
+        margin-top: 20px;
+        max-width: 400px;
+    }
 
-        @keyframes fadeIn {
-            0% { opacity: 0; }
-            100% { opacity: 1; }
-        }
-    </style>
+    @keyframes fadeIn {
+        0% { opacity: 0; }
+        100% { opacity: 1; }
+    }
+</style>
 </head>
 <body>
     <h1>Movie Length Finder</h1>
+php
+Copy code
+<div class="search-container">
+    <input type="text" id="movieName" class="search-input" placeholder="Enter movie name">
+    <div id="suggestions"></div>
+</div>
 
-    <div class="search-container">
-        <input type="text" id="movieName" class="search-input" placeholder="Enter movie name">
-        <div id="suggestions"></div>
-    </div>
+<div id="result"></div>
+<img id="poster" src="" alt="Movie Poster">
 
-    <div id="result"></div>
-    <img id="poster" src="" alt="Movie Poster">
+<script>
+    const API_KEY = 'c01c2356';
 
-    <script>
-        const API_KEY = 'c01c2356';
+    function handleResponse(response) {
+        if (response.Response === 'True') {
+            const movieName = response.Title;
+            const movieYear = response.Year;
+            const movieLength = response.Runtime;
+            const movieGenre = response.Genre;
+            const moviePoster = response.Poster;
 
-        function handleResponse(response) {
-            if (response.Response === 'True') {
-                const movieName = response.Title;
-                const movieYear = response.Year;
-                const movieLength = response.Runtime;
-                const movieGenre = response.Genre;
-                const moviePoster = response.Poster;
-                document.getElementById('result').innerHTML = `Movie: <span>${movieName}</span><br>Year: <span>${movieYear}</span><br>Length: <span>${movieLength}</span><br>Genre: <span>${movieGenre}</span>`;
-                document.getElementById('poster').src = moviePoster;
-            } else {
-                document.getElementById('result').innerHTML = 'Movie not found.';
-            }
+            const result = document.getElementById('result');
+            result.innerHTML = `Movie: <span>${movieName}</span><br>Year: <span>${movieYear}</span><br>Length: <span>${movieLength}</span><br>Genre: <span>${movieGenre}</span>`;
+
+            const poster = document.getElementById('poster');
+            poster.src = moviePoster;
+            poster.style.display = 'block';
+        } else {
+            document.getElementById('result').innerHTML = 'Movie not found.';
+            document.getElementById('poster').style.display = 'none';
         }
+    }
 
-        function handleSuggestions(suggestions) {
-            const suggestionsContainer = document.getElementById('suggestions');
-            suggestionsContainer.innerHTML = '';
-
-            if (suggestions.length === 0) {
-                suggestionsContainer.classList.remove('show');
-                return;
-            }
-
-            const ul = document.createElement('ul');
-            suggestions.forEach(suggestion => {
-                const li = document.createElement('li');
-                li.textContent = suggestion;
-                li.addEventListener('click', () => {
-                    document.getElementById('movieName').value = suggestion;
-                    suggestionsContainer.classList.remove('show');
-                    searchMovie();
-                });
-                ul.appendChild(li);
-            });
-
-            suggestionsContainer.appendChild(ul);
-            suggestionsContainer.classList.add('show');
-        }
-
-        const movieNameInput = document.getElementById('movieName');
+    function handleSuggestions(suggestions) {
         const suggestionsContainer = document.getElementById('suggestions');
+        suggestionsContainer.innerHTML = '';
 
-        movieNameInput.addEventListener('input', () => {
-            const movieName = movieNameInput.value.trim();
+        if (suggestions.length === 0) {
+            suggestionsContainer.classList.remove('show');
+            return;
+        }
 
-            if (movieName === '') {
-                suggestionsContainer.classList.remove('show');
-                return;
-            }
-
-            const url = `https://www.omdbapi.com/?apikey=${API_KEY}&s=${encodeURIComponent(movieName)}`;
-            fetch(url)
-                .then(response => response.json())
-                .then(data => {
-                    if (data.Search) {
-                        const suggestions = data.Search.map(movie => movie.Title);
-                        handleSuggestions(suggestions);
-                    } else {
-                        handleSuggestions([]);
-                    }
-                })
-                .catch(error => {
-                    console.error(error);
-                    handleSuggestions([]);
-                });
-        });
-
-        movieNameInput.addEventListener('keydown', (event) => {
-            if (event.key === 'Enter') {
+        const ul = document.createElement('ul');
+        suggestions.forEach(suggestion => {
+            const li = document.createElement('li');
+            li.textContent = suggestion;
+            li.addEventListener('click', () => {
+                document.getElementById('movieName').value = suggestion;
                 suggestionsContainer.classList.remove('show');
                 searchMovie();
-            }
+            });
+            ul.appendChild(li);
         });
 
-        document.addEventListener('click', (event) => {
-            if (!event.target.matches('#movieName')) {
-                suggestionsContainer.classList.remove('show');
-            }
-        });
+        suggestionsContainer.appendChild(ul);
+        suggestionsContainer.classList.add('show');
+    }
 
-        function searchMovie() {
-            const movieNameInput = document.getElementById('movieName');
-            const movieName = movieNameInput.value.trim();
+    const movieNameInput = document.getElementById('movieName');
+    const suggestionsContainer = document.getElementById('suggestions');
 
-            if (movieName === '') {
-                document.getElementById('result').innerHTML = 'Please enter a movie name.';
-                return;
-            }
+    movieNameInput.addEventListener('input', () => {
+        const movieName = movieNameInput.value.trim();
 
-            const url = `https://www.omdbapi.com/?apikey=${API_KEY}&t=${encodeURIComponent(movieName)}`;
-            fetch(url)
-                .then(response => response.json())
-                .then(handleResponse)
-                .catch(error => {
-                    console.error(error);
-                    document.getElementById('result').innerHTML = 'An error occurred while searching for the movie.';
-                });
+        if (movieName === '') {
+            suggestionsContainer.classList.remove('show');
+            return;
         }
-    </script>
+
+        const url = `https://www.omdbapi.com/?apikey=${API_KEY}&s=${encodeURIComponent(movieName)}`;
+        fetch(url)
+            .then(response => response.json())
+            .then(data => {
+                if (data.Search) {
+                    const suggestions = data.Search.map(movie => movie.Title);
+                    handleSuggestions(suggestions);
+                } else {
+                    handleSuggestions([]);
+                }
+            })
+            .catch(error => {
+                console.error(error);
+                handleSuggestions([]);
+            });
+    });
+
+    movieNameInput.addEventListener('keydown', (event) => {
+        if (event.key === 'Enter') {
+            suggestionsContainer.classList.remove('show');
+            searchMovie();
+        }
+    });
+
+    document.addEventListener('click', (event) => {
+        if (!event.target.matches('#movieName')) {
+            suggestionsContainer.classList.remove('show');
+        }
+    });
+
+    function searchMovie() {
+        const movieNameInput = document.getElementById('movieName');
+        const movieName = movieNameInput.value.trim();
+
+        if (movieName === '') {
+            document.getElementById('result').innerHTML = 'Please enter a movie name.';
+            document.getElementById('poster').style.display = 'none';
+            return;
+        }
+
+        const url = `https://www.omdbapi.com/?apikey=${API_KEY}&t=${encodeURIComponent(movieName)}`;
+        fetch(url)
+            .then(response => response.json())
+            .then(handleResponse)
+            .catch(error => {
+                console.error(error);
+                document.getElementById('result').innerHTML = 'An error occurred while searching for the movie.';
+                document.getElementById('poster').style.display = 'none';
+            });
+    }
+</script>
 </body>
 </html>
