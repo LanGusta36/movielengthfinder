@@ -36,6 +36,7 @@
 
         .search-container {
             display: flex;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
             margin-bottom: 20px;
@@ -52,7 +53,7 @@
             outline: none;
         }
 
-        #result {
+        #suggestions {
             font-size: 18px;
             text-align: center;
             animation: fadeIn 1s;
@@ -69,24 +70,32 @@
             z-index: 1;
         }
 
-        #result.show {
+        #suggestions.show {
             display: block;
         }
 
-        #result ul {
+        #suggestions ul {
             list-style-type: none;
             padding: 0;
             margin: 0;
         }
 
-        #result li {
+        #suggestions li {
             padding: 5px;
             cursor: pointer;
         }
 
-        #result li:hover {
+        #suggestions li:hover {
             background-color: #ff4500;
             color: #fff;
+        }
+
+        #result {
+            font-size: 18px;
+            text-align: center;
+            animation: fadeIn 1s;
+            color: #ff4500;
+            margin-top: 20px;
         }
 
         #result span {
@@ -105,10 +114,10 @@
 
     <div class="search-container">
         <input type="text" id="movieName" class="search-input" placeholder="Enter movie name">
-        <div id="result"></div>
+        <div id="suggestions"></div>
     </div>
 
-    <div id="searchResult"></div>
+    <div id="result"></div>
 
     <script>
         const API_KEY = 'c01c2356';
@@ -118,18 +127,18 @@
                 const movieName = response.Title;
                 const movieLength = response.Runtime;
                 const movieGenre = response.Genre;
-                document.getElementById('searchResult').innerHTML = `Movie: <span>${movieName}</span><br>Length: <span>${movieLength}</span><br>Genre: <span>${movieGenre}</span>`;
+                document.getElementById('result').innerHTML = `Movie: <span>${movieName}</span><br>Length: <span>${movieLength}</span><br>Genre: <span>${movieGenre}</span>`;
             } else {
-                document.getElementById('searchResult').innerHTML = 'Movie not found.';
+                document.getElementById('result').innerHTML = 'Movie not found.';
             }
         }
 
         function handleSuggestions(suggestions) {
-            const resultContainer = document.getElementById('result');
-            resultContainer.innerHTML = '';
+            const suggestionsContainer = document.getElementById('suggestions');
+            suggestionsContainer.innerHTML = '';
 
             if (suggestions.length === 0) {
-                resultContainer.classList.remove('show');
+                suggestionsContainer.classList.remove('show');
                 return;
             }
 
@@ -139,43 +148,24 @@
                 li.textContent = suggestion;
                 li.addEventListener('click', () => {
                     document.getElementById('movieName').value = suggestion;
-                    resultContainer.classList.remove('show');
+                    suggestionsContainer.classList.remove('show');
                     searchMovie();
                 });
                 ul.appendChild(li);
             });
 
-            resultContainer.appendChild(ul);
-            resultContainer.classList.add('show');
-        }
-
-        function searchMovie() {
-            const movieNameInput = document.getElementById('movieName');
-            const movieName = movieNameInput.value.trim();
-
-            if (movieName === '') {
-                document.getElementById('searchResult').innerHTML = 'Please enter a movie name.';
-                return;
-            }
-
-            const url = `https://www.omdbapi.com/?apikey=${API_KEY}&t=${encodeURIComponent(movieName)}`;
-            fetch(url)
-                .then(response => response.json())
-                .then(handleResponse)
-                .catch(error => {
-                    console.error(error);
-                    document.getElementById('searchResult').innerHTML = 'An error occurred while searching for the movie.';
-                });
+            suggestionsContainer.appendChild(ul);
+            suggestionsContainer.classList.add('show');
         }
 
         const movieNameInput = document.getElementById('movieName');
-        const resultContainer = document.getElementById('result');
+        const suggestionsContainer = document.getElementById('suggestions');
 
         movieNameInput.addEventListener('input', () => {
             const movieName = movieNameInput.value.trim();
 
             if (movieName === '') {
-                resultContainer.classList.remove('show');
+                suggestionsContainer.classList.remove('show');
                 return;
             }
 
@@ -198,16 +188,35 @@
 
         movieNameInput.addEventListener('keydown', (event) => {
             if (event.key === 'Enter') {
-                resultContainer.classList.remove('show');
+                suggestionsContainer.classList.remove('show');
                 searchMovie();
             }
         });
 
         document.addEventListener('click', (event) => {
             if (!event.target.matches('#movieName')) {
-                resultContainer.classList.remove('show');
+                suggestionsContainer.classList.remove('show');
             }
         });
+
+        function searchMovie() {
+            const movieNameInput = document.getElementById('movieName');
+            const movieName = movieNameInput.value.trim();
+
+            if (movieName === '') {
+                document.getElementById('result').innerHTML = 'Please enter a movie name.';
+                return;
+            }
+
+            const url = `https://www.omdbapi.com/?apikey=${API_KEY}&t=${encodeURIComponent(movieName)}`;
+            fetch(url)
+                .then(response => response.json())
+                .then(handleResponse)
+                .catch(error => {
+                    console.error(error);
+                    document.getElementById('result').innerHTML = 'An error occurred while searching for the movie.';
+                });
+        }
     </script>
 </body>
 </html>
