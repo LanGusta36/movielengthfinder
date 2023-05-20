@@ -4,136 +4,132 @@
     <title>Movie Length Finder</title>
     <link rel="icon" href="https://icons-for-free.com/iconfiles/ico/32/scream-131996349204229354.ico" type="image/x-icon">
     <style>
-        /* Add some basic styles to the form */
-        body {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            font-family: Arial, sans-serif;
-            background-image: url('https://pyxis.nymag.com/v1/imgs/b73/d51/f4991a746cedf9801c8c6a1b656d5c579b-scream.jpg');
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
-            background-attachment: fixed;
-            height: 100vh;
-        }
+    /* Add some basic styles to the form */
+    body {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        font-family: Arial, sans-serif;
+        background-image: url('https://pyxis.nymag.com/v1/imgs/b73/d51/f4991a746cedf9801c8c6a1b656d5c579b-scream.jpg');
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+        height: 100vh;
+    }
 
-        h1 {
-            font-size: 36px;
-            color: #ff4500;
-            text-align: center;
-            margin-bottom: 40px;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
-            animation: pulse 2s infinite;
-        }
+    h1 {
+        font-size: 36px;
+        color: #ff4500;
+        text-align: center;
+        margin-bottom: 40px;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+        animation: pulse 2s infinite;
+    }
 
-        @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-            100% { transform: scale(1); }
-        }
+    @keyframes pulse {
+        0% { transform: scale(1); }
+        50% { transform: scale(1.05); }
+        100% { transform: scale(1); }
+    }
 
-        .search-container {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            margin-bottom: 20px;
-            position: relative;
-        }
+    .search-container {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        margin-bottom: 20px;
+        position: relative;
+    }
 
-        .search-input {
-            width: 400px;
-            padding: 10px;
-            background-color: #000;
-            color: #ff4500;
-            border: 2px solid #ff4500;
-            font-size: 20px;
-            outline: none;
-        }
+    .search-input {
+        width: 400px;
+        padding: 10px;
+        background-color: #000;
+        color: #ff4500;
+        border: 2px solid #ff4500;
+        font-size: 20px;
+        outline: none;
+    }
 
-        #suggestions {
-            font-size: 18px;
-            text-align: center;
-            animation: fadeIn 1s;
-            color: #ff4500;
-            position: absolute;
-            top: 100%;
-            left: 0;
-            width: 100%;
-            background-color: #fff;
-            border: 2px solid #ff4500;
-            border-top: none;
-            display: none;
-            padding: 10px;
-            z-index: 1;
-        }
+    #suggestions {
+        font-size: 18px;
+        text-align: center;
+        animation: fadeIn 1s;
+        color: #ff4500;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        width: 100%;
+        background-color: #fff;
+        border: 2px solid #ff4500;
+        border-top: none;
+        display: none;
+        padding: 10px;
+        z-index: 1;
+    }
 
-        #suggestions.show {
-            display: block;
-        }
+    #suggestions.show {
+        display: block;
+    }
 
-        #suggestions ul {
-            list-style-type: none;
-            padding: 0;
-            margin: 0;
-        }
+    #suggestions ul {
+        list-style-type: none;
+        padding: 0;
+        margin: 0;
+    }
 
-        #suggestions li {
-            padding: 5px;
-            cursor: pointer;
-        }
+    #suggestions li {
+        padding: 5px;
+        cursor: pointer;
+    }
 
-        #suggestions li:hover {
-            background-color: #ff4500;
-            color: #fff;
-        }
+    #suggestions li:hover {
+        background-color: #ff4500;
+        color: #fff;
+    }
 
-        #result {
-            font-size: 24px;
-            text-align: center;
-            font-weight: bold;
-            animation: fadeIn 1s;
-            color: #ff4500;
-            margin-top: 20px;
-            text-shadow: 2px 2px 4px rgba(2, 2, 2, 3);
-            border: none; /* Remove the border */
-            outline: none; /* Remove the outline */
-			-webkit-text-stroke-width: 1px;
-			-webkit-text-stroke-color: black;
-        }
+    #result {
+        font-size: 24px;
+        text-align: center;
+        margin-top: 20px;
+        font-weight: bold;
+        color: #ff4500;
+        text-shadow: 2px 2px 4px rgba(2, 2, 2, 3);
+    }
 
-        #result span {
-            font-size: 24px;
-            text-align: center;
-            font-weight: bold;
-            animation: fadeIn 1s;
-            color: #ff4500;
-            margin-top: 20px;
-            text-shadow: 2px 2px 4px rgba(2, 2, 2, 3);
-            border: none; /* Remove the border */
-            outline: none; /* Remove the outline */
-			-webkit-text-stroke-width: 1px;
-			-webkit-text-stroke-color: black;
-        }
+    #result span {
+        font-size: 24px;
+        text-align: center;
+        font-weight: bold;
+        animation: fadeIn 1s;
+        color: #ff4500;
+        margin-top: 20px;
+        text-shadow: 2px 2px 4px rgba(2, 2, 2, 3);
+        border: none; /* Remove the border */
+        outline: none; /* Remove the outline */
+        -webkit-text-stroke-width: 1px;
+        -webkit-text-stroke-color: black;
+    }
 
-        #result .label {
-            font-size: 24px;
-            color: #ff4500;
-        }
+    #result .label {
+        font-size: 24px;
+        color: #ff4500;
+        font-weight: bold;
+    }
 
-        #poster {
-            margin-top: 20px;
-            max-width: 400px;
-            display: none; /* Initially hide the poster image */
-        }
+    #poster {
+        margin-top: 20px;
+        max-width: 400px;
+        display: none; /* Initially hide the poster image */
+    }
 
-        @keyframes fadeIn {
-            0% { opacity: 0; }
-            100% { opacity: 1; }
-        }
-    </style>
+    @keyframes fadeIn {
+        0% { opacity: 0; }
+        100% { opacity: 1; }
+    }
+</style>
 </head>
 <body>
     <h1>Movie Length Finder</h1>
@@ -157,7 +153,7 @@
                 const moviePoster = response.Poster;
 
                 const result = document.getElementById('result');
-                result.innerHTML = `Movie: <span>${movieName}</span><br>Year: <span>${movieYear}</span><br>Length: <span>${movieLength}</span><br>Genre: <span>${movieGenre}</span>`;
+                result.innerHTML = `<b>Movie:</b> <span>${movieName}</span><br><b>Year:</b> <span>${movieYear}</span><br><b>Length:</b> <span>${movieLength}</span><br><b>Genre:</b> <span>${movieGenre}</span>`;
 
                 const poster = document.getElementById('poster');
                 poster.src = moviePoster;
