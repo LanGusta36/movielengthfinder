@@ -91,15 +91,13 @@
         }
 
         #result {
-            font-size: 24px;
             text-align: center;
-            font-weight: bold;
-            animation: fadeIn 1s;
-            color: #ff4500;
             margin-top: 20px;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 1);
-            border: none; /* Remove the border */
-            outline: none; /* Remove the outline */
+        }
+
+        #result img {
+            width: 200px;
+            margin-bottom: 10px;
         }
 
         #result span {
@@ -112,12 +110,6 @@
             text-shadow: 2px 2px 4px rgba(0, 0, 0, 1);
             border: none; /* Remove the border */
             outline: none; /* Remove the outline */
-        }
-
-        #poster {
-            max-width: 400px;
-            margin-top: 20px;
-            animation: fadeIn 1s;
         }
 
         @keyframes fadeIn {
@@ -135,7 +127,6 @@
     </div>
 
     <div id="result"></div>
-    <img id="poster" src="" alt="Movie Poster">
 
     <script>
         const API_KEY = 'c01c2356';
@@ -147,8 +138,11 @@
                 const movieLength = response.Runtime;
                 const movieGenre = response.Genre;
                 const moviePoster = response.Poster;
-                document.getElementById('result').innerHTML = `Movie: <span>${movieName}</span><br>Year: <span>${movieYear}</span><br>Length: <span>${movieLength}</span><br>Genre: <span>${movieGenre}</span>`;
-                document.getElementById('poster').src = moviePoster;
+
+                let resultHTML = `<div id="poster"><img src="${moviePoster}" alt="${movieName} poster"></div>`;
+                resultHTML += `<div id="details">Movie: <span>${movieName} (${movieYear})</span><br>Length: <span>${movieLength}</span><br>Genre: <span>${movieGenre}</span></div>`;
+
+                document.getElementById('result').innerHTML = resultHTML;
             } else {
                 document.getElementById('result').innerHTML = 'Movie not found.';
             }
