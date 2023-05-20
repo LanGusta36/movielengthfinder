@@ -51,6 +51,27 @@
             outline: none;
         }
 
+        #suggestions {
+            position: absolute;
+            background-color: #fff;
+            color: #000;
+            border: 1px solid #ccc;
+            max-height: 200px;
+            overflow-y: auto;
+            width: 400px;
+            margin-top: 10px;
+            display: none;
+        }
+
+        #suggestions li {
+            padding: 5px;
+            cursor: pointer;
+        }
+
+        #suggestions li:hover {
+            background-color: #f2f2f2;
+        }
+
         #result {
             font-size: 18px;
             text-align: center;
@@ -73,13 +94,8 @@
     <h1>Movie Length Finder</h1>
 
     <div class="search-container">
-        <input type="text" id="movieName" class="search-input" placeholder="Enter movie name" list="movieList">
-        <datalist id="movieList">
-            <option value="Avengers">
-            <option value="Inception">
-            <option value="The Dark Knight">
-            <!-- Add more movie suggestions here -->
-        </datalist>
+        <input type="text" id="movieName" class="search-input" placeholder="Enter movie name" autocomplete="off">
+        <ul id="suggestions"></ul>
     </div>
 
     <div id="result"></div>
@@ -98,7 +114,50 @@
             }
         }
 
+        function showSuggestions(suggestions) {
+            const suggestionsList = document.getElementById('suggestions');
+            suggestionsList.innerHTML = '';
+
+            if (suggestions.length > 0) {
+                suggestions.forEach((suggestion) => {
+                    const li = document.createElement('li');
+                    li.textContent = suggestion;
+                    suggestionsList.appendChild(li);
+                });
+
+                suggestionsList.style.display = 'block';
+            } else {
+                suggestionsList.style.display = 'none';
+            }
+        }
+
         const movieNameInput = document.getElementById('movieName');
+        const suggestionsList = document.getElementById('suggestions');
+
+        movieNameInput.addEventListener('input', () => {
+            const inputValue = movieNameInput.value.trim();
+
+            if (inputValue === '') {
+                suggestionsList.style.display = 'none';
+                return;
+            }
+
+            const url = `https://www.omdbapi.com/?apikey=${API_KEY}&s=${encodeURIComponent(inputValue)}`;
+            fetch(url)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.Response === 'True') {
+                        const movieTitles = data.Search.map(movie => movie.Title);
+                        showSuggestions(movieTitles);
+                    } else {
+                        showSuggestions([]);
+                    }
+                })
+                .catch(error => {
+                    console.error(error);
+                    showSuggestions([]);
+                });
+        });
 
         movieNameInput.addEventListener('keydown', (event) => {
             if (event.key === 'Enter') {
@@ -116,6 +175,29 @@
                         console.error(error);
                         document.getElementById('result').innerHTML = 'An error occurred while searching for the movie.';
                     });
+            }
+        });
+
+        suggestionsList.addEventListener('click', (event) => {
+            if (event.target.tagName === 'LI') {
+                const selectedMovie = event.target.textContent;
+                movieNameInput.value = selectedMovie;
+                suggestionsList.style.display = 'none';
+
+                const url = `https://www.omdbapi.com/?apikey=${API_KEY}&t=${encodeURIComponent(selectedMovie)}`;
+                fetch(url)
+                    .then(response => response.json())
+                    .then(handleResponse)
+                    .catch(error => {
+                        console.error(error);
+                        document.getElementById('result').innerHTML = 'An error occurred while searching for the movie.';
+                    });
+            }
+        });
+
+        document.addEventListener('click', (event) => {
+            if (!event.target.matches('#movieName') && !event.target.matches('#suggestions li')) {
+                suggestionsList.style.display = 'none';
             }
         });
     </script>
