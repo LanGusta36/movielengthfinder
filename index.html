@@ -137,14 +137,15 @@
 
         function handleResponse(response) {
             if (response.Response === 'True') {
-                const movieName = response.Title;
-                const movieLength = response.Runtime;
-                const movieGenre = response.Genre;
-                document.getElementById('result').innerHTML = `Movie: <span>${movieName}</span><br>Length: <span>${movieLength}</span><br>Genre: <span>${movieGenre}</span>`;
-            } else {
-                document.getElementById('result').innerHTML = 'Movie not found.';
-            }
-        }
+        const movieName = response.Title;
+        const movieYear = response.Year;
+        const movieLength = response.Runtime;
+        const movieGenre = response.Genre;
+        document.getElementById('result').innerHTML = `Movie: <span>${movieName} (${movieYear})</span><br>Length: <span>${movieLength}</span><br>Genre: <span>${movieGenre}</span>`;
+    } else {
+        document.getElementById('result').innerHTML = 'Movie not found.';
+    }
+}
 
         function handleSuggestions(suggestions) {
             const suggestionsContainer = document.getElementById('suggestions');
