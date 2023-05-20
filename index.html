@@ -73,7 +73,13 @@
     <h1>Movie Length Finder</h1>
 
     <div class="search-container">
-        <input type="text" id="movieName" class="search-input" placeholder="Enter movie name">
+        <input type="text" id="movieName" class="search-input" placeholder="Enter movie name" list="movieList">
+        <datalist id="movieList">
+            <option value="Avengers">
+            <option value="Inception">
+            <option value="The Dark Knight">
+            <!-- Add more movie suggestions here -->
+        </datalist>
     </div>
 
     <div id="result"></div>
@@ -109,10 +115,9 @@
                     .catch(error => {
                         console.error(error);
                         document.getElementById('result').innerHTML = 'An error occurred while searching for the movie.';
-});
-}
-});
-</script>
-
+                    });
+            }
+        });
+    </script>
 </body>
 </html>
